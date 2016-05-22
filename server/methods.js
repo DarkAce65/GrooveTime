@@ -16,7 +16,7 @@ Meteor.methods({
 				"Authorization": "Bearer " + accessToken
 			}
 		});
-		return data;
+		return data.data.genres;
 	},
 	"getTracksByGenre": function(accessToken, genre) {
 		var data = HTTP.get("https://api.spotify.com/v1/search", {
@@ -25,19 +25,38 @@ Meteor.methods({
 				"Authorization": "Bearer " + accessToken
 			}
 		});
-		return data;
+		return data.data.tracks;
 	},
 	"getTracksByArtist": function(accessToken, artist) {
 		var data = HTTP.get("https://api.spotify.com/v1/search", {
-			"content": "q=artist:" + artist,
+			"params": {
+				"q": "artist:" + artist,
+				"type": "track"
+			},
 			"headers": {
 				"Authorization": "Bearer " + accessToken
 			}
 		});
-		return data;
+		return data.data.tracks;
 	},
 	"getTracksWithinLength": function(tracks, length) {
-		var packer = new GrowingPacker();
+		length *= 60000; // min to ms
+		var packer = new Packer(length, 1);
+		for (var i = 0; i < tracks.length; i++) {
+			tracks[i].h = 1;
+			tracks[i].w = tracks[i].duration_ms;
+		}
+		tracks.sort(function(a,b) { return (b.w < a.w); });
+		packer.fit(tracks);
+
+		console.log(tracks[0]);
+		var resultTracks = [];
+		for (var i = 0; i < tracks.length; i++) {
+			if (tracks[i].fit) {
+				resultTracks.push(tracks[i]);
+			}
+		}
+		return resultTracks;
 	}
 
 });
