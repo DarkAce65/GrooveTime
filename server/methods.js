@@ -28,7 +28,7 @@ Meteor.methods({
 		});
 		return data.data.genres;
 	},
-	"getTracksByGenre": function(accessToken, genre) {
+	"getTracksByGenre": function(accessToken, genre, explicit) {
 		var data = HTTP.get("https://api.spotify.com/v1/search", {
 			"params": {
 				"q": "genre:\"" + genre + "\"",
@@ -38,9 +38,14 @@ Meteor.methods({
 				"Authorization": "Bearer " + accessToken
 			}
 		});
-		return data.data.tracks;
+		if (!explicit) {
+			return removeExplicitTracks(data.data.tracks);
+		}
+		else {
+			return data.data.tracks;
+		}
 	},
-	"getTracksByArtist": function(accessToken, artist) {
+	"getTracksByArtist": function(accessToken, artist, explicit) {
 		var data = HTTP.get("https://api.spotify.com/v1/search", {
 			"params": {
 				"q": "artist:" + artist,
@@ -50,7 +55,12 @@ Meteor.methods({
 				"Authorization": "Bearer " + accessToken
 			}
 		});
-		return data.data.tracks;
+		if (!explicit) {
+			return removeExplicitTracks(data.data.tracks);
+		}
+		else {
+			return data.data.tracks;
+		}
 	},
 	"getTracksWithinLength": function(tracks, length) {
 		length *= 60000; // min to ms
@@ -72,3 +82,13 @@ Meteor.methods({
 		return resultTracks;
 	}
 });
+
+function removeExplicitTracks(tracks) {
+	var resultTracks = [];
+	for (var track in tracks) {
+		if (!track.explicit) {
+			resultTracks.push(track);
+		}
+	}
+	return resultTracks
+}
