@@ -46,7 +46,7 @@ Template.home.events({
 			});
 		}
 		else {
-			Meteor.call("getTracksByGenre", Session.get("accessToken"), e.target.genres.value, function(err, data){
+			Meteor.call("getTracksByGenre", Session.get("accessToken"), e.target.genreSelect.value, function(err, data){
 				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
 					Session.set("tracks", data);
 				});
