@@ -30,6 +30,7 @@ Template.home.helpers({
 		for (var i = 0; i < tracks.length; i++) {
 			spotifySrc += tracks[i].id + ",";
 		}
+		spotifySrc += "&theme=white";
 		return spotifySrc;
 	}
 });
