@@ -1,7 +1,48 @@
 <template name="home">
 	<div class="container">
-		<h1>GrooveTime</h1>
-		<iframe src="{{spotifySrc}}"></iframe>
-		<p><button id="searchTracks" class="btn btn-spotify">Search Tracks</button></p>
+		<form class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+			<h1>GrooveTime</h1>
+			{{#if spotifySrc}}
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item" src="{{spotifySrc}}"></iframe>
+			</div>
+			{{/if}}
+			<div class="radio">
+				<label>
+					<input type="radio" name="filterOption" id="filterOption1" value="option1" checked>
+					Filter by Artist
+				</label>
+			</div>
+			<input type="text" placeholder="Artist Name" class="form-control">
+			<div class="radio">
+				<label>
+					<input type="radio" name="filterOption" id="filterOption2" value="option2">
+					Filter by Genre
+				</label>
+			</div>
+			<select class="form-control">
+				{{#if genres}}
+				{{#each genre in genres}}
+				<option value="{{genre}}">{{genre}}</option>
+				{{/each}}
+				{{else}}
+				<option value="loading">Loading genres...</option>
+				{{/if}}
+			</select>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" value="allowExplicit">
+					Allow explicit songs
+				</label>
+			</div>
+			<p>
+				Create a playlist with this length
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Minutes">
+					<span class="input-group-addon">Minutes</span>
+				</div>
+			</p>
+			<p><button type="submit" class="btn btn-block btn-spotify">Find some music</button></p>
+		</form>
 	</div>
 </template>
