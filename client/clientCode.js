@@ -1,3 +1,7 @@
+function toTitleCase(str) {
+	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 Template.home.onRendered(function(){
 	Meteor.call("getAccessToken", function(err, data) {
 		if (err) {
@@ -19,8 +23,12 @@ Template.home.onRendered(function(){
 
 Template.home.helpers({
 	"genres": function() {
-		if(Session.get("genres")) {
-			return Session.get("genres");
+		var genres = Session.get("genres");
+		if(genres) {
+			for(var i = 0; i < genres.length; i++) {
+				genres[i] = toTitleCase(genres[i]);
+			}
+			return genres;
 		}
 		return [];
 	},
