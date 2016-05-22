@@ -4,15 +4,13 @@ Template.home.onRendered(function(){
 			console.log(err);
 		}
 		else {
-			console.log(data);
 			Session.set("accessToken", data);
 			Meteor.call("listGenres", data, function(err, data) {
 				if (err) {
 					console.log(err);
 				}
 				else {
-					console.log(data);
-					Session.set("genres", data.data.genres);
+					Session.set("genres", data);
 				}
 			});
 		}
