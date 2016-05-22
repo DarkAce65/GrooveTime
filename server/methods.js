@@ -20,7 +20,10 @@ Meteor.methods({
 	},
 	"getTracksByGenre": function(accessToken, genre) {
 		var data = HTTP.get("https://api.spotify.com/v1/search", {
-			"content": "q=genre:" + genre,
+			"params": {
+				"q": "genre:" + genre,
+				"type": "track"
+			},
 			"headers": {
 				"Authorization": "Bearer " + accessToken
 			}
