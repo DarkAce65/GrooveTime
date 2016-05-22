@@ -21,23 +21,38 @@ Template.home.onRendered(function(){
 
 Template.home.helpers({
 	"genres": function() {
-		return Session.get("genres");
+		if(Session.get("genres")) {
+			return Session.get("genres");
+		}
+		return [];
 	},
 	"spotifySrc": function() {
-		return Session.get("spotifySrc");
+		var spotifySrc = "https://embed.spotify.com/?uri=spotify:trackset:GrooveTime:";
+		var tracks = Session.get("tracks");
+		for (var i = 0; i < tracks.length; i++) {
+			spotifySrc += tracks[i].id + ",";
+		}
+		return spotifySrc;
 	}
 });
 
 Template.home.events({
 	"submit form": function(e) {
 		e.preventDefault();
-		console.log(e.target.filterOption.value);
+		var duration = parseInt(e.target.duration.value);
 		if(e.target.filterOption.value === "artist") {
-			console.log(e.target.artistName.value);
+			Meteor.call("getTracksByArtist", Session.get("accessToken"), e.target.artistName.value, function(err, data){
+				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
+					Session.set("tracks", data);
+				});
+			});
 		}
 		else {
-			console.log(e.target.genreSelect.value);
+			Meteor.call("getTracksByGenre", Session.get("accessToken"), e.target.genres.value, function(err, data){
+				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
+					Session.set("tracks", data);
+				});
+			});
 		}
-		console.log(parseInt(e.target.duration.value));
 	}
 });
