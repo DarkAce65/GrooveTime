@@ -38,7 +38,7 @@ Template.home.helpers({
 Template.home.events({
 	"submit form": function(e) {
 		e.preventDefault();
-		var duration = parseInt(e.target.duration.value);
+		var duration = Math.max(parseInt(e.target.duration.value), 4);
 		if(e.target.filterOption.value === "artist") {
 			Meteor.call("getTracksByArtist", Session.get("accessToken"), e.target.artistName.value, function(err, data){
 				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
