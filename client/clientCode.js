@@ -30,7 +30,7 @@ Template.home.helpers({
 		for (var i = 0; i < tracks.length; i++) {
 			spotifySrc += tracks[i].id + ",";
 		}
-		spotifySrc += "&theme=white";
+		spotifySrc = spotifySrc.slice(0, -1) + "&theme=white";
 		return spotifySrc;
 	}
 });
@@ -40,14 +40,16 @@ Template.home.events({
 		e.preventDefault();
 		var duration = Math.max(parseInt(e.target.duration.value), 4);
 		if(e.target.filterOption.value === "artist") {
-			Meteor.call("getTracksByArtist", Session.get("accessToken"), e.target.artistName.value, function(err, data){
+			var artistName = e.target.artistName.value;
+			Meteor.call("getTracksByArtist", Session.get("accessToken"), artistName, function(err, data){
 				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
 					Session.set("tracks", data);
 				});
 			});
 		}
 		else {
-			Meteor.call("getTracksByGenre", Session.get("accessToken"), e.target.genreSelect.value, function(err, data){
+			var genre = e.target.genreSelect.value;
+			Meteor.call("getTracksByGenre", Session.get("accessToken"), genre, function(err, data){
 				Meteor.call("getTracksWithinLength", data.items, duration, function(err, data){
 					Session.set("tracks", data);
 				});

@@ -17,7 +17,6 @@ Meteor.methods({
 				"Authorization": "Basic YzQ5OGQ1ZGJkNjM1NDk1YWJmYmQ1MmY0OGM0NWRhNTg6NzlhN2E2MDQzOGUzNDAwYzk5MzVmNWY4MGJkNWYxZmU"
 			},
 			"params": {"grant_type": "client_credentials"}
-			// "params": "grant_type=client_credentials"
 		});
 		return data.data.access_token;
 	},
@@ -72,5 +71,4 @@ Meteor.methods({
 		}
 		return resultTracks;
 	}
-
 });
