@@ -31,12 +31,13 @@ Template.home.helpers({
 Template.home.events({
 	"submit form": function(e) {
 		e.preventDefault();
-		console.log(e);
-	},
-	"click #searchTracks": function() {
-		$.get("https://api.spotify.com/v1/search", {"q": "Muse", "type": "track"}, function(data) {
-			var first = data.tracks.items[0].uri;
-			Session.set("spotifySrc", "https://embed.spotify.com/?uri=" + first);
-		});
+		console.log(e.target.filterOption.value);
+		if(e.target.filterOption.value === "artist") {
+			console.log(e.target.artistName.value);
+		}
+		else {
+			console.log(e.target.genreSelect.value);
+		}
+		console.log(parseInt(e.target.duration.value));
 	}
 });

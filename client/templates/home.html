@@ -9,18 +9,18 @@
 			{{/if}}
 			<div class="radio">
 				<label>
-					<input type="radio" name="filterOption" id="filterOption1" value="option1" checked>
+					<input type="radio" name="filterOption" id="artist" value="artist" checked>
 					Filter by Artist
 				</label>
 			</div>
-			<input type="text" placeholder="Artist Name" class="form-control">
+			<input id="artistName" type="text" placeholder="Artist Name" class="form-control">
 			<div class="radio">
 				<label>
-					<input type="radio" name="filterOption" id="filterOption2" value="option2">
+					<input type="radio" name="filterOption" id="genre" value="genre">
 					Filter by Genre
 				</label>
 			</div>
-			<select class="form-control">
+			<select id="genreSelect" class="form-control">
 				{{#if genres}}
 				{{#each genre in genres}}
 				<option value="{{genre}}">{{genre}}</option>
@@ -29,16 +29,16 @@
 				<option value="loading">Loading genres...</option>
 				{{/if}}
 			</select>
-			<div class="checkbox">
+			<div class="checkbox disabled">
 				<label>
-					<input type="checkbox" value="allowExplicit">
+					<input type="checkbox" value="allowExplicit" disabled>
 					Allow explicit songs
 				</label>
 			</div>
 			<p>
 				Create a playlist with this length
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Minutes">
+					<input id="duration" type="text" class="form-control" placeholder="Minutes">
 					<span class="input-group-addon">Minutes</span>
 				</div>
 			</p>
