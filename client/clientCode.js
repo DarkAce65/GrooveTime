@@ -44,6 +44,12 @@ Template.home.helpers({
 });
 
 Template.home.events({
+	"change #artistName": function(e) {
+		document.querySelector("#artist").checked = true;
+	},
+	"change #genreSelect": function(e) {
+		document.querySelector("#genre").checked = true;
+	},
 	"submit form": function(e) {
 		e.preventDefault();
 		var duration = Math.max(parseInt(e.target.duration.value), 4);
