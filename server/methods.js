@@ -1,3 +1,14 @@
+function shuffle(array) { // Fisher–Yates Shuffle
+	var m = array.length, t, i;
+	while(m) {
+		i = Math.floor(Math.random() * m--);
+		t = array[m];
+		array[m] = array[i];
+		array[i] = t;
+	}
+	return array;
+}
+
 Meteor.methods({
 	"getAccessToken": function() {
 		// encoded is base64 encoding of id:secret
@@ -49,7 +60,7 @@ Meteor.methods({
 			tracks[i].h = 1;
 			tracks[i].w = tracks[i].duration_ms;
 		}
-		tracks.sort(function(a,b) { return (b.w < a.w); });
+		shuffle(tracks);
 		packer.fit(tracks);
 
 		console.log(tracks[0]);
