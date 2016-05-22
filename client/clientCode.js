@@ -14,12 +14,13 @@ Template.home.events({
 });
 
 Template.home.onRendered(function(){
-	Meteor.call("listGenres", function(err, data) {
+	Meteor.call("getAccessToken", function(err, data) {
 		if (err) {
 			console.log(err);
 		}
 		else {
 			console.log(data);
+			Session.set("accessToken", data);
 		}
 	});
 });
